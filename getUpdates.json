@@ -1,0 +1,100 @@
+{
+  "ok": true,
+  "result": [
+    {
+      "update_id": 70342803,
+      "my_chat_member": {
+        "chat": {
+          "id": -640656727,
+          "title": "Bloubergstrand \ud83e\ude81",
+          "type": "group",
+          "all_members_are_administrators": false
+        },
+        "from": {
+          "id": 474046357,
+          "is_bot": false,
+          "first_name": "Dima",
+          "username": "baradzed7"
+        },
+        "date": 1660028780,
+        "old_chat_member": {
+          "user": {
+            "id": 5598223184,
+            "is_bot": true,
+            "first_name": "tgstat",
+            "username": "vmtgstat_bot"
+          },
+          "status": "left"
+        },
+        "new_chat_member": {
+          "user": {
+            "id": 5598223184,
+            "is_bot": true,
+            "first_name": "tgstat",
+            "username": "vmtgstat_bot"
+          },
+          "status": "member"
+        }
+      }
+    },
+    {
+      "update_id": 70342804,
+      "message": {
+        "message_id": 1,
+        "from": {
+          "id": 474046357,
+          "is_bot": false,
+          "first_name": "Dima",
+          "username": "baradzed7"
+        },
+        "chat": {
+          "id": -640656727,
+          "title": "Bloubergstrand \ud83e\ude81",
+          "type": "group",
+          "all_members_are_administrators": true
+        },
+        "date": 1660028780,
+        "new_chat_participant": {
+          "id": 5598223184,
+          "is_bot": true,
+          "first_name": "tgstat",
+          "username": "vmtgstat_bot"
+        },
+        "new_chat_member": {
+          "id": 5598223184,
+          "is_bot": true,
+          "first_name": "tgstat",
+          "username": "vmtgstat_bot"
+        },
+        "new_chat_members": [
+          {
+            "id": 5598223184,
+            "is_bot": true,
+            "first_name": "tgstat",
+            "username": "vmtgstat_bot"
+          }
+        ]
+      }
+    },
+    {
+      "update_id": 70342805,
+      "message": {
+        "message_id": 2,
+        "from": {
+          "id": 474046357,
+          "is_bot": false,
+          "first_name": "Dima",
+          "username": "baradzed7"
+        },
+        "chat": {
+          "id": -640656727,
+          "title": "Bloubergstrand \ud83e\ude81",
+          "type": "group",
+          "all_members_are_administrators": true
+        },
+        "date": 1660028961,
+        "text": "test"
+      }
+    }
+  ]
+}
