@@ -1,16 +1,21 @@
 package com.victoriametrics.tgstat;
 
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
+
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.InetSocketAddress;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class Main {
 
@@ -27,9 +32,12 @@ public class Main {
         con.setRequestMethod("GET");
         con.setDoOutput(true);
 
+
         int status = con.getResponseCode();
 
         if (status != 200) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            System.err.println(reader.lines().toList());
             throw new IOException("Status is not 200, but is " + status);
         }
 
@@ -53,22 +61,42 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        // String token = readToken();
+        String token = readToken();
         // makeApiCall(token, "/getMe");
         // makeApiCall(token, "/getUpdates");
         // makeApiCall(token, "/sendMessage?chat_id=388268832&text=yo");
+        // makeApiCall(token, "/setWebhook?url=https%3A%2F%2Feivr.eu.ngrok.io");
 
-        try (ServerSocket server = new ServerSocket(8888)) {
+        int port = 8765;
+        System.out.println("Listening on: " + port);
 
-            Socket conn = server.accept();
+        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", port), 0);
 
-            InputStream inputStream = conn.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        server.createContext("/", new MyHttpHandler());
+        Executor threadPoolExecutor = Executors.newFixedThreadPool(2);
+        server.setExecutor(threadPoolExecutor);
+        server.start();
+    }
 
-            System.out.println(bufferedReader.readLine());
+    static class MyHttpHandler implements HttpHandler {
+        public void handle(HttpExchange exchange) throws IOException {
+            InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
 
-            conn.close();
+            int c = isr.read();
+            while (c != -1) {
+                System.out.print(((char) c));
+                c = isr.read();
+            }
+            System.out.println();
+
+            // List<String> lines = reader.lines().toList();
+            // System.out.println(lines);
+
+            String response = "This is the response " + System.currentTimeMillis();
+            exchange.sendResponseHeaders(200, response.length());
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(response.getBytes());
+            }
         }
     }
 }
